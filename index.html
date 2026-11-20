@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#17324d">
+  <title>KasirKu | Premium POS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <img class="donghua-wallpaper" src="donghua.png" alt="" aria-hidden="true">
+  <div class="wallpaper-flame" aria-hidden="true">🔥</div>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-icon">K</span>
+        <div><b>KasirKu</b><small>Premium Point of Sale</small></div>
+      </div>
+      <nav aria-label="Navigasi utama">
+        <button class="nav-btn active" data-page="dashboard">▦ <span>Dashboard</span></button>
+        <button class="nav-btn" data-page="transaksi">＋ <span>Transaksi Baru</span></button>
+        <button class="nav-btn" data-page="barang">▤ <span>Data Barang</span></button>
+        <button class="nav-btn" data-page="riwayat">◷ <span>Riwayat Transaksi</span></button>
+        <button class="nav-btn" data-page="laporan">▧ <span>Laporan Harian</span></button>
+      </nav>
+      <div class="sidebar-note">KasirKu Premium<br><span>Data tersimpan di browser perangkat ini.</span></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><p class="eyebrow">SISTEM POINT OF SALE</p><h1 id="page-title">Dashboard</h1></div>
+        <div class="today" id="today"></div>
+      </header>
+
+      <section class="page active" id="page-dashboard">
+        <div class="welcome donghua-hero">
+          <div class="hero-copy"><p class="eyebrow light">SELAMAT DATANG DI KASIRKU</p><h2>Kelola penjualan lebih mudah.</h2><p>Transaksi, pembayaran, nota, dan laporan dalam satu tempat.</p><span class="magic-caption">✦ MAGICAL POS EXPERIENCE ✦</span></div>
+          <div class="magic-orb" aria-hidden="true"></div><div class="flame-effect" aria-hidden="true">🔥</div>
+          <div class="welcome-mark">✦</div>
+        </div>
+        <div class="stats">
+          <article class="stat-card"><span>Transaksi Hari Ini</span><strong id="stat-count">0</strong><small>Transaksi berhasil</small></article>
+          <article class="stat-card"><span>Penjualan Hari Ini</span><strong id="stat-total">Rp0</strong><small>Termasuk PPN</small></article>
+          <article class="stat-card"><span>Produk Terdaftar</span><strong id="stat-items">0</strong><small>Jenis produk aktif</small></article>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><h3>Transaksi Terbaru</h3><p>Lima transaksi terakhir yang berhasil disimpan</p></div><button class="text-btn" data-go="riwayat">Lihat semua →</button></div>
+          <div id="dashboard-recent" class="empty">Belum ada transaksi.</div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><h3>Ringkasan Pembayaran Hari Ini</h3><p>Rekap berdasarkan metode pembayaran</p></div></div>
+          <div class="payment-summary" id="payment-summary"></div>
+        </div>
+      </section>
+
+      <section class="page" id="page-transaksi">
+        <div class="panel">
+          <div class="panel-head"><div><h3>Buat Transaksi</h3><p>Pilih produk, masukkan jumlah, lalu proses pembayaran.</p></div><span class="tax-badge">PPN 10%</span></div>
+          <div class="form-grid">
+            <label>Nama pembeli (opsional)<input id="buyer" type="text" maxlength="70" placeholder="Contoh: Pak Budi"></label>
+            <label>Tanggal transaksi<input id="transaction-date" type="date"></label>
+          </div>
+          <div class="transaction-slots">
+            <div class="slots-heading"><h4>Input 10 Baris Produk</h4><p>Pilih barang, isi jumlah dan harga, lalu tekan Tambah pada baris tersebut.</p></div>
+            <div id="transaction-slots"></div>
+          </div>
+          <div class="table-wrap">
+            <table><thead><tr><th>Nama Produk</th><th>Jumlah</th><th>Harga</th><th>Subtotal</th><th></th></tr></thead><tbody id="cart-body"></tbody></table>
+          </div>
+          <div class="checkout-grid">
+            <div class="payment-box">
+              <h3>Detail Pembayaran</h3>
+              <label>Metode pembayaran
+                <select id="payment-method"><option value="Tunai">Tunai</option><option value="Debit">Debit</option></select>
+              </label>
+              <label id="cash-label">Uang diterima (Rp)<input id="cash-received" type="number" min="0" step="1" placeholder="Masukkan nominal uang"></label>
+              <p class="change-line">Kembalian <strong id="change-due">Rp0</strong></p>
+              <p class="payment-hint" id="payment-hint">Masukkan uang yang diterima dari pelanggan.</p>
+            </div>
+            <div class="total-box">
+              <div><span>Subtotal</span><strong id="cart-subtotal">Rp0</strong></div>
+              <div><span>PPN (10%)</span><strong id="cart-tax">Rp0</strong></div>
+              <div class="grand-total"><span>Total Pembayaran</span><strong id="cart-total">Rp0</strong></div>
+              <div class="actions"><button class="secondary" id="clear-cart">Kosongkan</button><button class="primary" id="save-transaction">Proses & Cetak Nota</button></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-barang">
+        <div class="panel">
+          <div class="panel-head"><div><h3>Daftar Barang</h3><p>Barang yang tersedia untuk dipilih saat transaksi.</p></div></div>
+          
+          <div class="table-wrap"><table><thead><tr><th>No.</th><th>Nama Produk</th><th>Stok</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="products-body"></tbody></table></div>
+        </div>
+      </section>
+
+      <section class="page" id="page-riwayat">
+        <div class="panel">
+          <div class="panel-head"><div><h3>Riwayat Transaksi</h3><p>Daftar seluruh transaksi yang tersimpan pada perangkat ini.</p></div></div>
+          <div class="toolbar"><input id="history-search" type="search" placeholder="Cari nomor transaksi atau nama pembeli..."><button class="secondary" id="export-csv">Ekspor CSV</button></div>
+          <div id="history-list" class="empty">Belum ada transaksi.</div>
+        </div>
+      </section>
+
+      <section class="page" id="page-laporan">
+        <div class="panel">
+          <div class="panel-head"><div><h3>Laporan Penjualan Harian</h3><p>Pilih tanggal untuk melihat rekap penjualan.</p></div></div>
+          <div class="report-filter"><label>Tanggal laporan<input type="date" id="report-date"></label><button class="secondary" id="print-report">Cetak Laporan</button></div>
+          <div class="stats report-stats">
+            <article class="stat-card"><span>Jumlah Transaksi</span><strong id="report-count">0</strong></article>
+            <article class="stat-card"><span>Total Penjualan</span><strong id="report-total">Rp0</strong></article>
+            <article class="stat-card"><span>Total PPN</span><strong id="report-tax">Rp0</strong></article>
+          </div>
+          <div class="panel inset"><div class="panel-head"><div><h3>Rincian Transaksi</h3><p id="report-caption">Belum ada data.</p></div></div><div id="report-list" class="empty">Belum ada transaksi pada tanggal ini.</div></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="print-area" class="print-area"></div>
+  <script src="script.js"></script>
+</body>
+</html>
